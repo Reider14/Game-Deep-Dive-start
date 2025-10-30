@@ -24,10 +24,12 @@ const styles = StyleSheet.create({
 
     inputContainer: {
         //flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
         marginTop: 100,
         marginHorizontal: 16,
         padding: 16,
-        backgroundColor: '#72063c',
+        backgroundColor: '#4e0329',
         borderRadius: 8,
         elevation: 4,
         shadowColor: 'black',
