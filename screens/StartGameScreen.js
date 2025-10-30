@@ -1,51 +1,95 @@
-import { View, TextInput, StyleSheet } from "react-native";
-import PrimaryButton from "../components/PrimaryButton";
+    import { View, TextInput, StyleSheet, Alert } from "react-native";
+    import PrimaryButton from "../components/PrimaryButton";
+    import { useState } from "react";
 
-function StartGameScreen() {
-// cwe cannssundiausdihuiahsidhihshad
-    return (
-        <View style={styles.inputContainer}>
-            <TextInput 
-            style={styles.inputNumber} 
-            maxLength={2} 
-            keyboardType="number-pad"
-            autoCapitalize="none"
-            autoCorrect={false}/> 
-            <PrimaryButton>Reset</PrimaryButton>
-            <PrimaryButton>Confirm</PrimaryButton>
-        </View>
-    );
-}
+    function StartGameScreen({onPickedNumber}) {
+  
+        const [enteredNumber, setEnteredNumber] = useState('');
 
+        function enteredNumberHandler(enteredNumber){
+            setEnteredNumber(enteredNumber);
+        }
 
-export default StartGameScreen;
+        function resetInputHandler(){
+            setEnteredNumber('');
+        }
 
-const styles = StyleSheet.create({
+        function inputConfirmHandler(){
+            const choseNumber = parseInt(enteredNumber)
 
-    inputContainer: {
-        //flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 100,
-        marginHorizontal: 16,
-        padding: 16,
-        backgroundColor: '#4e0329',
-        borderRadius: 8,
-        elevation: 4,
-        shadowColor: 'black',
-        shadowOffset: {width: 0, height: 2},
-        shadowRadius: 6,
-        shadowOpacity: 0.85
-    },
-    inputNumber: {
-        height: 50,
-        width: 50,
-        fontSize: 32,
-        borderBottomColor: '#ddb51f',
-        borderBottomWidth: 2,
-        color: '#ddb51f',
-        marginVertical: 8,
-        fontWeight: 'bold',
-        textAlign: 'center'
+            if (isNaN(choseNumber) ||  choseNumber <= 0 || choseNumber > 99){
+                //Show alert
+                Alert.alert(
+                    'Invalid number!',
+                    'Number has to been a number between 1 a 99.',
+                    [{text: 'Okay', style: 'destructive', onPress: resetInputHandler}]
+                );
+                return;
+            }
+
+            onPickedNumber(choseNumber);
+        }
+        return (
+            <View style={styles.inputContainer}>
+
+                <TextInput 
+                    style={styles.inputNumber} 
+                    maxLength={2} 
+                    keyboardType="number-pad"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    onChangeText={enteredNumberHandler}
+                    value={enteredNumber}
+                /> 
+
+                <View style={styles.buttonsContainer}>
+                    <View style={styles.buttonContainer}>
+                        <PrimaryButton onPress={resetInputHandler}>Reset</PrimaryButton>
+                    </View>
+                    <View style={styles.buttonContainer}>
+                        <PrimaryButton onPress={inputConfirmHandler}>Confirm</PrimaryButton>
+                    </View>
+                </View>
+
+            </View>
+        );
     }
-});
+
+
+    export default StartGameScreen;
+
+    const styles = StyleSheet.create({
+
+        inputContainer: {
+            //flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 100,
+            marginHorizontal: 16,
+            padding: 16,
+            backgroundColor: '#3b021f',
+            borderRadius: 8,
+            elevation: 4,
+            shadowColor: 'black',
+            shadowOffset: {width: 0, height: 2},
+            shadowRadius: 6,
+            shadowOpacity: 0.85
+        },
+        inputNumber: {
+            height: 50,
+            width: 50,
+            fontSize: 32,
+            borderBottomColor: '#ddb51f',
+            borderBottomWidth: 2,
+            color: '#ddb51f',
+            marginVertical: 8,
+            fontWeight: 'bold',
+            textAlign: 'center'
+        },
+        buttonsContainer: {
+            flexDirection: 'row'
+        },
+        buttonContainer: {
+            flex: 1
+        }
+    });

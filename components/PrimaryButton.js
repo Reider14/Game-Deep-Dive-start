@@ -1,18 +1,15 @@
 import { View, Text, Pressable, StyleSheet} from "react-native";
 
-function PrimaryButton({children}) {   //we can use dsa
+function PrimaryButton({children, onPress}) {   //we can use dsa
 
-    function pressedHandler(){
-        
-    }
+    
     return ( 
         <View style={styles.buttonOuterContainer}>
-            // this dosen`t have effct in IOS
             <Pressable 
             style={({pressed}) => pressed ? [
                 styles.buttonInnerContainer, styles.pressed
             ] :styles.buttonInnerContainer} 
-            onPress={pressedHandler} 
+            onPress={onPress} 
             android_ripple={{color: '#640233'}}>
 
                 <Text style={styles.textContainer}>{children}</Text>     
