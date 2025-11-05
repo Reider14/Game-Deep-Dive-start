@@ -1,4 +1,5 @@
 import { View, Text, Pressable, StyleSheet} from "react-native";
+import Colors from "../../Utils/Colors";
 
 function PrimaryButton({children, onPress}) {   //we can use dsa
 
@@ -10,7 +11,7 @@ function PrimaryButton({children, onPress}) {   //we can use dsa
                 styles.buttonInnerContainer, styles.pressed
             ] :styles.buttonInnerContainer} 
             onPress={onPress} 
-            android_ripple={{color: '#640233'}}>
+            android_ripple={{color: Colors.primary600}}>
 
                 <Text style={styles.textContainer}>{children}</Text>     
             </Pressable>
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden' // any effct out of this container is not visible
     },
     buttonInnerContainer: {
-        backgroundColor: '#72063c',
+        backgroundColor: Colors.primary500,
         paddingVertical: 8,
         paddingHorizontal: 16,
         shadowColor: 'black',

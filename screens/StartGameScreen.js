@@ -1,6 +1,10 @@
     import { View, TextInput, StyleSheet, Alert } from "react-native";
-    import PrimaryButton from "../components/PrimaryButton";
+    import PrimaryButton from "../components/UI/PrimaryButton";
     import { useState } from "react";
+
+import Colors from "../Utils/Colors";
+
+
 
     function StartGameScreen({onPickedNumber}) {
   
@@ -67,7 +71,7 @@
             marginTop: 100,
             marginHorizontal: 16,
             padding: 16,
-            backgroundColor: '#3b021f',
+            backgroundColor: Colors.primary800,
             borderRadius: 8,
             elevation: 4,
             shadowColor: 'black',
@@ -79,9 +83,9 @@
             height: 50,
             width: 50,
             fontSize: 32,
-            borderBottomColor: '#ddb51f',
+            borderBottomColor: Colors.accent500,
             borderBottomWidth: 2,
-            color: '#ddb51f',
+            color: Colors.accent500,
             marginVertical: 8,
             fontWeight: 'bold',
             textAlign: 'center'
