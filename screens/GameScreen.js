@@ -1,12 +1,14 @@
-import { View, StyleSheet, Alert} from "react-native";
+import { View, StyleSheet, Alert, Text, FlatList} from "react-native";
 import { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import Title from "../components/UI/Title";
 import NumberContainer from "../components/Game/NumberContainer";
 import PrimaryButton from "../components/UI/PrimaryButton";
 import Card from "../components/UI/Card";
 import InsctrutionsText from "../components/UI/InsctrutionText";
+import GuessLogitem from "../components/Game/GuessLogItem";
 
 function generateRandomBetween(min, max, exclude) {
   const rndNum = Math.floor(Math.random() * (max - min)) + min;
@@ -23,14 +25,20 @@ let maxBoundary = 100;
 
 function GameScreen({userNumber, onGameOver}){
 
-    const initialGuess = generateRandomBetween(minBoundary, maxBoundary, userNumber);
+    const initialGuess = generateRandomBetween(1, 100, userNumber);
     const [currentGuess, setCurrentGuess] = useState(initialGuess);
+    const [guessRounds, setGuessRounds] = useState([initialGuess]);
 
     useEffect(() => {
         if(currentGuess === userNumber){
             onGameOver();
         }
     },[currentGuess, userNumber, onGameOver]);
+
+    useEffect(() => {
+        minBoundary = 1;
+        maxBoundary = 100;
+    }, [])
 
     function nextGuessHandler(direction){      // direction =>  'lower' || 'greater' 
        
@@ -49,10 +57,13 @@ function GameScreen({userNumber, onGameOver}){
 
         const newRndNumber = generateRandomBetween(minBoundary, maxBoundary, currentGuess);
         setCurrentGuess(newRndNumber);
+        setGuessRounds(prevGuessRounds => [newRndNumber, ...prevGuessRounds]);
     }
 
+    const guessRoundsListLenght = guessRounds.length;
+
     return(
-        <View style={styles.screen}>
+        <SafeAreaView edges={['left', 'right', 'bottom', 'top']} style={styles.screen}>
             <Title>Opponent's Guess</Title>
             <NumberContainer>{currentGuess}</NumberContainer>
             <Card>  
@@ -73,9 +84,15 @@ function GameScreen({userNumber, onGameOver}){
                 </View>
             </Card>
             <View>
-               
+               {/*guessRounds.map(guessRounds => <Text key={guessRounds}>{guessRounds}</Text>)*/}
+               <FlatList 
+                    data={guessRounds} 
+                    renderItem={(itemData) => <GuessLogitem 
+                        roundNumber={guessRoundsListLenght - itemData.index} 
+                        guess={itemData.item}/>}
+                    keyExtractor={(item) => item}/>
             </View>
-        </View>
+        </SafeAreaView>
     )
 }
 
