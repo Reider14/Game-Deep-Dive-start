@@ -1,8 +1,12 @@
-    import { View, TextInput, StyleSheet, Alert } from "react-native";
-    import PrimaryButton from "../components/UI/PrimaryButton";
-    import { useState } from "react";
+import { View, TextInput, StyleSheet, Alert} from "react-native";
+import PrimaryButton from "../components/UI/PrimaryButton";
+import { useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import Colors from "../Utils/Colors";
+import Title from "../components/UI/Title";
+import Card from "../components/UI/Card";
+import InsctrutionsText from "../components/UI/InsctrutionText";
 
 
 
@@ -34,28 +38,33 @@ import Colors from "../Utils/Colors";
             onPickedNumber(choseNumber);
         }
         return (
-            <View style={styles.inputContainer}>
+            <SafeAreaView style={styles.areaContainer} edges={['left', 'right', 'bottom', 'right']}>
+            <View style={styles.rootContainer}>
+                <Title>Guess My Number</Title>
+                <Card>
+                    <InsctrutionsText>Enter a Number</InsctrutionsText>
+                    <TextInput 
+                        style={styles.inputNumber} 
+                        maxLength={2} 
+                        keyboardType="number-pad"
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        onChangeText={enteredNumberHandler}
+                        value={enteredNumber}
+                    /> 
 
-                <TextInput 
-                    style={styles.inputNumber} 
-                    maxLength={2} 
-                    keyboardType="number-pad"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    onChangeText={enteredNumberHandler}
-                    value={enteredNumber}
-                /> 
-
-                <View style={styles.buttonsContainer}>
-                    <View style={styles.buttonContainer}>
-                        <PrimaryButton onPress={resetInputHandler}>Reset</PrimaryButton>
+                    <View style={styles.buttonsContainer}>
+                        <View style={styles.buttonContainer}>
+                            <PrimaryButton onPress={resetInputHandler}>Reset</PrimaryButton>
+                        </View>
+                        <View style={styles.buttonContainer}>
+                            <PrimaryButton onPress={inputConfirmHandler}>Confirm</PrimaryButton>
+                        </View>
                     </View>
-                    <View style={styles.buttonContainer}>
-                        <PrimaryButton onPress={inputConfirmHandler}>Confirm</PrimaryButton>
-                    </View>
-                </View>
+                </Card>
 
             </View>
+            </SafeAreaView>
         );
     }
 
@@ -63,21 +72,10 @@ import Colors from "../Utils/Colors";
     export default StartGameScreen;
 
     const styles = StyleSheet.create({
-
-        inputContainer: {
-            //flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
+        rootContainer: {
+            flex: 1,
             marginTop: 100,
-            marginHorizontal: 16,
-            padding: 16,
-            backgroundColor: Colors.primary800,
-            borderRadius: 8,
-            elevation: 4,
-            shadowColor: 'black',
-            shadowOffset: {width: 0, height: 2},
-            shadowRadius: 6,
-            shadowOpacity: 0.85
+            alignItems: 'center'
         },
         inputNumber: {
             height: 50,
@@ -94,6 +92,9 @@ import Colors from "../Utils/Colors";
             flexDirection: 'row'
         },
         buttonContainer: {
+            flex: 1
+        },
+        areaContainer: {
             flex: 1
         }
     });
